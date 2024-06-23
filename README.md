@@ -10,3 +10,7 @@ Currently, two official plugins are available:
 # Install Styled CSS
 
 npm i styled-components
+
+# Install React Router
+
+npm i react-router-dom@6
