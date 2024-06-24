@@ -1,0 +1,32 @@
+==================== REACT QUERY ====================
+- Điều cơ bản nhất về React Query là tất cả trạng thái từ xa đều được lưu vào bộ đệm, 
+có nghĩa là dữ liệu được tìm nạp sẽ được lưu trữ để trạng tái sử dụng ở các điểm khác 
+nhau của ứng dụng. Vì vậy ví dụ nếu chúng ta tìm nạp dữ liệu về các "cabins" trong "componetA"
+React Query sẽ tìm nạp dữ liệu từ API, sau đó sẽ lưu trử dữ liệu nhận được vào bộ nhớ
+đệm để "componetA" có thể sử dụng dữ liệu đó. Và sau đó nếu "componetB" cũng muốn lấy 
+dữ liệu thì "cabins" thì không cần yêu cầu API bổ sung. Thay vào đó, React Query sẽ chỉ 
+cung cấp dữ liệu tương tự cho "componetB" từ bộ đệm. Và điều này có 2 lợi thế rất lớn
+- Đầu tiên, việc tải xuống sẽ lãng phí ít dữ liệu hơn một chút nhưng quan trọng hơn, 
+khi dữ liệu nằm trong bộ đệm, tất cả các thành phần khác như "componetB" ở đây, có thể
+nhận được dữ liệu đó ngay lập tức. Vì vậy, không cần phải hiển thị cho người dùng một 
+vòng quay tải khác. Và điều này tạo ra sự phản hồi nhành chóng cho người dùng.
+- React Query còn tự động tìm nạp lại dữ liệu trong một số trường hợp nhất định.
+Ví dụ: sau 1 thời gian chờ đợi nhất định hoặc sau khi chúng ta rời khỏi cửa sổ 
+trình duyệt và sau khi quay lại cửa sổ đó. Và điều này cực kỳ quan trọng để đảm bảo rằng
+trạng thái từ xa luôn đồng bộ hóa với ứng dụng.
+Ví dụ: nếu 1 số người dùng ứng dụng khác thay đổi trạng thái từ xa tại một thời điểm
+nào đó, chẳng hạn như bằng cách cập nhật "cabins" thì ứng dụng chạy trên tất cả các máy 
+tính khác sẽ có trạng thái "cabins" này không đồng bộ với trạng thái mới cập nhật.
+
+Giờ đây, bên cạnh việc tìm nạp lại, chúng ta cũng có thể tìm nạp trước dữ liệu, 
+về cơ bản có nghĩa là tìm nạp dữ liệu mà chúng ta biết sẽ cần thiết sau này
+nhưng trước khi nó thực sự được hiển thị trên màn hình. Và một ví dụ kinh điển
+về điều này là phân trang, trong đó với việc tìm nạp trước, chúng ta có thể tìm
+nạp dữ liệu không chỉ cho trang hiện tại mà còn cho trang tiếp theo. Bằng cách này,
+khi người dùng chuyển sang trang tiếp theo, dữ liệu sẽ luôn có sẵn trong bộ đệm.
+Vì vậy, không cần phải hiển thị một vòng quay tải gây phiền nhiễu.
+
+Nhưng một tính năng thực sự hữu ích là hỗ trợ khi người dùng ngoại tuyến. Vì vậy, 
+trong trường hợp này, do dữ liệu đã được lưu vào bộ nhớ đệm khi người dùng di chuyển 
+trong ứng dụng khi ngoại tuyến nên Thành phần A và B vẫn có thể được hiển thị bằng cách 
+sử dụng dữ liệu cabin được lưu trong bộ nhớ đệm này.

@@ -18,3 +18,23 @@ npm i react-router-dom@6
 # Install React Icons
 
 npm i react-icons
+
+# Install Supabase followed this step:
+
+1. Install "npm install @supabase/supabase-js"
+
+2. Paste this code from Supabase to initialize
+   import { createClient } from '@supabase/supabase-js'  
+   const supabaseUrl = 'your url'
+   const supabaseKey = process.env.SUPABASE_KEY
+   const supabase = createClient(supabaseUrl, supabaseKey)
+
+3. And finally we have to add our table key
+
+# Install ReactQuery version 4
+
+1. Install "npm i @tanstack/react-query@4"
+
+2. Install "npm i @tanstack/react-query-devtools@4"
+
+3. And finally we have to add our table key
