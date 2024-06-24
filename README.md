@@ -14,3 +14,7 @@ npm i styled-components
 # Install React Router
 
 npm i react-router-dom@6
+
+# Install React Icons
+
+npm i react-icons
