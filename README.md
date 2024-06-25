@@ -38,3 +38,7 @@ npm i react-icons
 2. Install "npm i @tanstack/react-query-devtools@4"
 
 3. And finally we have to add our table key
+
+# Install Displaying Toasts(Notifications)
+
+Install "npm i react-hot-toast"
