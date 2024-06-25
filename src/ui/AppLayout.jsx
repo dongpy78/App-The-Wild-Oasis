@@ -5,8 +5,15 @@ import styled from "styled-components";
 
 const Main = styled.main`
   background-color: var(--color-grey-50);
-
   padding: 4rem 4.8rem 6.4rem;
+
+  overflow: scroll;
+  overflow: -moz-hidden-none;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const StyledAppLayout = styled.div`
