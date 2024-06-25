@@ -42,3 +42,7 @@ npm i react-icons
 # Install Displaying Toasts(Notifications)
 
 Install "npm i react-hot-toast"
+
+# Install React Hook Form
+
+Install "npm i react-hook-form@7"
