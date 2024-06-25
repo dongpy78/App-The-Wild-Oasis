@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { differenceInDays, formatDistance, parseISO } from "date-fns";
 import { formatCurrency } from "../../utils/helpers";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { deleteCabin } from "../../services/apiCabins";
 
 const TableRow = styled.div`
   display: grid;
@@ -42,7 +44,32 @@ const Discount = styled.div`
 `;
 
 function CabinRow({ cabin }) {
-  const { name, maxCapacity, regularPrice, discount, image } = cabin;
+  const {
+    id: cabinId, // Lấy thuộc tính 'id' của đối tượng 'cabin' và gán nó vào biến 'cabinId'
+    name, // Lấy thuộc tính 'name' và gán vào biến 'name'
+    maxCapacity,
+    regularPrice,
+    discount,
+    image,
+  } = cabin;
+
+  const queryClient = useQueryClient();
+
+  // useMutation giúp thực hiện các thao tác thay đổi dữ liệu (mutation) và theo dõi trạng thái
+  // của những thao tác này (ví dụ: đang xử lý, thành công, thất bại).
+  const { isLoading: isDeleting, mutate } = useMutation({
+    mutationFn: deleteCabin,
+
+    onSuccess: () => {
+      alert("Cabin successfully deleted");
+      // Cập nhật vào queryClient để dữ liệu khi xóa cập nhật ngay không phải reload lại lần nữa
+      queryClient.invalidateQueries({
+        queryKey: ["cabins"],
+      });
+    },
+    onError: (err) => alert(err.message),
+  });
+
   return (
     <TableRow role="row">
       <Img src={image} />
@@ -50,7 +77,9 @@ function CabinRow({ cabin }) {
       <div>Fits up tp {maxCapacity} guests</div>
       <Price>{formatCurrency(regularPrice)}</Price>
       <Discount>{formatCurrency(discount)}</Discount>
-      <button>Delete</button>
+      <button onClick={() => mutate(cabinId)} disabled={isDeleting}>
+        Delete
+      </button>
     </TableRow>
   );
 }
