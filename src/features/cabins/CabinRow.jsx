@@ -1,11 +1,8 @@
 import styled from "styled-components";
-import { differenceInDays, formatDistance, parseISO } from "date-fns";
-import { formatCurrency } from "../../utils/helpers";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { deleteCabin } from "../../services/apiCabins";
-import toast from "react-hot-toast";
 import { useState } from "react";
 import CreateCabinForm from "./CreateCabinForm";
+import { useDeleteCabin } from "./useDeleteCabin";
+import { formatCurrency } from "../../utils/helpers";
 
 const TableRow = styled.div`
   display: grid;
@@ -48,6 +45,7 @@ const Discount = styled.div`
 
 function CabinRow({ cabin }) {
   const [showForm, setShowForm] = useState(false);
+  const { isDeleting, deleteCabin } = useDeleteCabin();
 
   const {
     id: cabinId, // Lấy thuộc tính 'id' của đối tượng 'cabin' và gán nó vào biến 'cabinId'
@@ -58,22 +56,22 @@ function CabinRow({ cabin }) {
     image,
   } = cabin;
 
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
 
-  // useMutation giúp thực hiện các thao tác thay đổi dữ liệu (mutation) và theo dõi trạng thái
-  // của những thao tác này (ví dụ: đang xử lý, thành công, thất bại).
-  const { isLoading: isDeleting, mutate } = useMutation({
-    mutationFn: deleteCabin,
+  // // useMutation giúp thực hiện các thao tác thay đổi dữ liệu (mutation) và theo dõi trạng thái
+  // // của những thao tác này (ví dụ: đang xử lý, thành công, thất bại).
+  // const { isLoading: isDeleting, mutate } = useMutation({
+  //   mutationFn: deleteCabin,
 
-    onSuccess: () => {
-      toast.success("Cabin successfully deleted");
-      // Cập nhật vào queryClient để dữ liệu khi xóa cập nhật ngay không phải reload lại lần nữa
-      queryClient.invalidateQueries({
-        queryKey: ["cabins"],
-      });
-    },
-    onError: (err) => toast.error(err.message),
-  });
+  //   onSuccess: () => {
+  //     toast.success("Cabin successfully deleted");
+  //     // Cập nhật vào queryClient để dữ liệu khi xóa cập nhật ngay không phải reload lại lần nữa
+  //     queryClient.invalidateQueries({
+  //       queryKey: ["cabins"],
+  //     });
+  //   },
+  //   onError: (err) => toast.error(err.message),
+  // });
 
   return (
     <>
@@ -82,10 +80,14 @@ function CabinRow({ cabin }) {
         <Cabin>{name}</Cabin>
         <div>Fits up to {maxCapacity} guests</div>
         <Price>{formatCurrency(regularPrice)}</Price>
-        <Discount>{formatCurrency(discount)}</Discount>
+        {discount ? (
+          <Discount>{formatCurrency(discount)}</Discount>
+        ) : (
+          <span>&mdash;</span>
+        )}
         <div>
           <button onClick={() => setShowForm((show) => !show)}>Edit</button>
-          <button onClick={() => mutate(cabinId)} disabled={isDeleting}>
+          <button onClick={() => deleteCabin(cabinId)} disabled={isDeleting}>
             Delete
           </button>
         </div>

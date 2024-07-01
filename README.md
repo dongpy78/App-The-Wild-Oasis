@@ -46,3 +46,8 @@ Install "npm i react-hot-toast"
 # Install React Hook Form
 
 Install "npm i react-hook-form@7"
+
+# Commit Github Again
+
+git commit --amend -m "Cap nhat lai commit"
+git push -f
